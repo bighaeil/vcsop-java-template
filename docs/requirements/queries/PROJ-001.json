@@ -1,0 +1,8 @@
+{
+  "jira": "PROJ-001",
+  "layer": "infrastructure/in",
+  "summary": "사용자 조회 API",
+  "tech": "rest",
+  "api_path": "GET /api/users/{id}",
+  "steps": ["Controller", "UseCase", "Port"]
+}

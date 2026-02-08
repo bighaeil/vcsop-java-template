@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "vcsop-mcp": {
+      "url": "http://localhost:3000/sse",
+      "description": "VCSOP MCP Server - Jira, Confluence, GitLab, MySQL, Redis"
+    }
+  },
+  "comment": "MCP 서버 설정 예시입니다. 실제 서버 URL로 변경하여 사용하세요."
+}
