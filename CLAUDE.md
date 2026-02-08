@@ -10,7 +10,7 @@
 
 이 룰셋은 다음 4개의 파일로 구성되어 있습니다:
 
-1. **[AI 질의 템플릿](docs/rules/AI_QUERY_TEMPLATE.md)** - AI가 코드 작업을 요청받을 때 사용하는 질의 템플릿과 규칙
+1. **[AI 질의 템플릿](docs/rules/TASK_QUERY_GUIDE.md)** - AI가 코드 작업을 요청받을 때 사용하는 질의 템플릿과 규칙
 2. **[프로젝트 초기 셋팅](docs/rules/PROJECT_SETUP.md)** - 프로젝트 초기 셋팅 가이드
 3. **[프로젝트 구조 및 코드 컨벤션](docs/rules/CODE_CONVENTIONS.md)** - AI가 코딩을 할 때 통일된 코딩 컨벤션 및 구조를 지킬 수 있도록 하는 규칙
 4. **[문서화 규칙](docs/rules/DOCUMENTATION.md)** - AI가 작업을 실행할 때 문서화가 필요한 경우 규격에 맞게 문서화할 수 있도록 하는 규칙
@@ -19,7 +19,7 @@
 
 ## 파일별 상세 내용
 
-### 1. AI 질의 템플릿 (`docs/rules/AI_QUERY_TEMPLATE.md`)
+### 1. AI 질의 템플릿 (`docs/rules/TASK_QUERY_GUIDE.md`)
 
 AI가 코드 추가 및 수정 작업을 요청받을 때 사용하는 JSON 템플릿 형식과 규칙을 정의합니다.
 
@@ -105,7 +105,7 @@ AI가 작업을 실행할 때 문서화가 필요한 경우 규격에 맞게 문
 
 ### AI가 작업을 시작할 때
 
-1. **코드 작업 요청 시**: `docs/rules/AI_QUERY_TEMPLATE.md` 참조
+1. **코드 작업 요청 시**: `docs/rules/TASK_QUERY_GUIDE.md` 참조
 2. **프로젝트 셋팅 필요 시**: `docs/rules/PROJECT_SETUP.md` 참조
 3. **코드 작성 시**: `docs/rules/CODE_CONVENTIONS.md` 참조
 4. **문서화 필요 시**: `docs/rules/DOCUMENTATION.md` 참조
@@ -117,7 +117,7 @@ vcsop-java-template/
 ├── CLAUDE.md                    # 메인 인덱스 파일 (이 파일)
 └── docs/
     └── rules/
-        ├── AI_QUERY_TEMPLATE.md     # AI 질의 템플릿
+        ├── TASK_QUERY_GUIDE.md     # AI 질의 템플릿
         ├── PROJECT_SETUP.md         # 프로젝트 초기 셋팅
         ├── CODE_CONVENTIONS.md      # 프로젝트 구조 및 코드 컨벤션
         └── DOCUMENTATION.md         # 문서화 규칙

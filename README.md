@@ -64,7 +64,7 @@ vcsop-java-template/
 │
 ├── docs/                           # 문서 루트
 │   ├── rules/                      # AI 행동 규칙
-│   │   ├── AI_QUERY_TEMPLATE.md
+│   │   ├── TASK_QUERY_GUIDE.md
 │   │   ├── CODE_CONVENTIONS.md
 │   │   ├── DOCUMENTATION.md
 │   │   └── PROJECT_SETUP.md
@@ -191,7 +191,7 @@ vi docs/changelog/DOMAIN.md
 }
 ```
 
-AI에게 이 템플릿을 제공하고 `docs/rules/AI_QUERY_TEMPLATE.md` 규칙에 따라 작업을 요청합니다.
+AI에게 이 템플릿을 제공하고 `docs/rules/TASK_QUERY_GUIDE.md` 규칙에 따라 작업을 요청합니다.
 
 ---
 
@@ -210,7 +210,7 @@ AI에게 이 템플릿을 제공하고 `docs/rules/AI_QUERY_TEMPLATE.md` 규칙�
 
 ### AI 행동 규칙
 - [CLAUDE.md](CLAUDE.md) - AI 룰셋 메인 인덱스
-- [AI_QUERY_TEMPLATE.md](docs/rules/AI_QUERY_TEMPLATE.md) - 작업 요청 템플릿
+- [TASK_QUERY_GUIDE.md](docs/rules/TASK_QUERY_GUIDE.md) - 작업 요청 템플릿
 - [CODE_CONVENTIONS.md](docs/rules/CODE_CONVENTIONS.md) - 코딩 컨벤션
 - [DOCUMENTATION.md](docs/rules/DOCUMENTATION.md) - 문서화 규칙
 
