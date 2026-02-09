@@ -21,7 +21,7 @@
 ### 1. Repository Clone
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/vcsop-java-template.git
+git clone https://github.com/bighaeil/vcsop-java-template.git
 cd vcsop-java-template
 ```
 
@@ -195,6 +195,237 @@ AI에게 이 템플릿을 제공하고 `docs/rules/TASK_QUERY_GUIDE.md` 규칙�
 
 ---
 
+## 🎯 실전 프로세스 예시
+
+실제 업무에서 VCSOP가 어떻게 작동하는지 구체적인 예시로 설명합니다.
+
+### 시나리오: "사용자 조회 API 개발"
+
+#### 📌 Phase 1: Discovery (발견)
+
+**Step 1-1. 요구사항 입체 분석**
+```
+상황: PM이 Figma에 새로운 사용자 관리 화면을 공유
+→ Confluence에 기능 명세가 업데이트됨
+→ Jira에 Epic이 생성됨
+```
+
+개발자가 할 일:
+1. Figma 화면 확인
+2. Confluence 문서 읽기
+3. `docs/requirements/features/USER_MANAGEMENT.md` 작성
+
+**작성 예시:**
+```markdown
+# 사용자 관리 기능
+
+## API 목록
+- GET /api/users/{id} - 사용자 상세 조회
+- POST /api/users - 사용자 생성
+- PUT /api/users/{id} - 사용자 수정
+
+## 비즈니스 규칙
+- 삭제된 사용자는 조회 불가
+- 이메일은 unique 제약
+```
+
+**Step 1-2. 실행 계획 수립**
+
+PRD를 바탕으로 AI 작업 요청을 위한 JSON 템플릿 작성:
+
+`docs/requirements/queries/GET_USER_API.json`:
+```json
+{
+  "jira": "none",
+  "layer": "infrastructure/in",
+  "summary": "사용자 ID로 상세 정보 조회 API",
+  "tech": "rest",
+  "api_path": "GET /api/users/{id}",
+  "parameter": "id: Long",
+  "return": "UserResponse(id, name, email, createdAt)",
+  "errorCases": [
+    "404: 사용자를 찾을 수 없습니다",
+    "400: 잘못된 ID 형식"
+  ],
+  "steps": [
+    "1. UserController에 GET 메서드 추가",
+    "2. UserQueryUseCase 구현",
+    "3. UserQueryPort 인터페이스 정의",
+    "4. UserDataPort를 통한 조회",
+    "5. UserResponse DTO 생성",
+    "6. 에러 처리 (CustomException)"
+  ]
+}
+```
+
+**Step 1-3. 일감 등록**
+
+MCP Jira 도구 사용:
+```
+Claude에게: "위 JSON 템플릿을 기반으로 Jira 티켓을 생성해주세요.
+- Sprint: BE Sprint 12
+- 담당자: 나
+- 기한: 2026-02-15"
+```
+
+→ Jira 티켓 생성: `PROJ-456`
+→ JSON 파일 업데이트: `"jira": "PROJ-456"`
+
+---
+
+#### 📌 Phase 2: Development (개발)
+
+**Step 2-1. 개발 환경 준비**
+
+```bash
+# feature 브랜치 생성
+git checkout -b feature/PROJ-456
+
+# AI에게 규칙 로딩 요청
+"CLAUDE.md와 docs/rules/CODE_CONVENTIONS.md를 읽고 
+이 프로젝트의 코딩 규칙을 파악해줘"
+```
+
+**Step 2-2. 기능 구현**
+
+AI에게 작업 요청:
+```
+"docs/requirements/queries/GET_USER_API.json 파일의 내용대로
+사용자 조회 API를 구현해주세요."
+```
+
+AI가 자동으로:
+1. ✅ `UserController.java` 생성 (BaseController 상속)
+2. ✅ `UserQueryUseCase.java` 구현
+3. ✅ `UserQueryPort.java` 인터페이스 정의
+4. ✅ `UserJpaAdapter.java` 구현
+5. ✅ `UserResponse.java` Record 생성
+6. ✅ 단위 테스트 작성
+7. ✅ `docs/changelog/USER.md`에 작업 기록
+
+**생성된 코드 예시 (UserController.java):**
+```java
+@RestController
+@RequestMapping("/api/users")
+public class UserController extends BaseController {
+    
+    private final UserQueryPort userQueryPort;
+    
+    @GetMapping("/{id}")
+    public BaseResponse<UserResponse> getUser(@PathVariable Long id) {
+        UserModel user = userQueryPort.retrieveUserById(id);
+        return success(UserResponse.from(user));
+    }
+}
+```
+
+**작업 이력 자동 기록 (docs/changelog/USER.md):**
+```markdown
+| Trace ID | 결정 | 이유 | 날짜 |
+|----------|------|------|------|
+| PROJ-456 | UserController 생성 | GET /api/users/{id} 구현 | 02-08 |
+| PROJ-456 | UserQueryUseCase 추가 | 사용자 조회 비즈니스 로직 | 02-08 |
+```
+
+---
+
+#### 📌 Phase 3: Verification (검증)
+
+**Step 3-1. 로컬 검증**
+
+```bash
+# 빌드 체크
+./gradlew build
+
+# 테스트 실행
+./gradlew test
+
+# 로컬 서버 실행
+./gradlew bootRun
+
+# Swagger UI 확인
+open http://localhost:9500/swagger-ui.html
+```
+
+**Step 3-2. 코드 리뷰**
+
+```bash
+# PR 생성
+git add .
+git commit -m "PROJ-456: Add user query API"
+git push origin feature/PROJ-456
+
+# GitHub PR 생성 (docs/templates/PR_TEMPLATE.md 사용)
+```
+
+**PR 내용 (자동 템플릿):**
+```markdown
+## 작업 내용
+- Jira: PROJ-456
+- 기능: 사용자 조회 API 구현
+
+## 변경 사항
+- [x] Controller 추가
+- [x] UseCase 추가
+- [x] Port 정의
+- [x] DTO 추가
+- [x] 단위 테스트 작성
+
+## 문서 업데이트
+- [x] docs/changelog/USER.md 업데이트
+```
+
+팀장 리뷰 → 피드백 반영 → Approve
+
+---
+
+#### 📌 Phase 4: Closure (완료)
+
+**Step 4-1. 마무리**
+
+```bash
+# main 브랜치 머지
+git checkout main
+git merge feature/PROJ-456
+
+# Confluence 문서 동기화 (MCP 도구 사용)
+"docs/design/ARCHITECTURE.md를 Confluence 페이지에 동기화해줘"
+
+# Jira 티켓 완료 처리 (MCP 도구 사용)
+"PROJ-456 티켓을 Done으로 변경해줘"
+```
+
+**결과:**
+- ✅ 코드 구현 완료
+- ✅ 테스트 통과
+- ✅ 문서 동기화
+- ✅ Jira 티켓 완료
+- ✅ 모든 작업 추적 가능
+
+---
+
+### 💡 핵심 포인트
+
+**1. 문서 기반 작업**
+- 모든 작업은 문서로 시작하고 문서로 끝남
+- PRD → JSON 템플릿 → 코드 → 작업 이력
+
+**2. AI와 협업**
+- JSON 템플릿으로 명확한 작업 지시
+- 코딩 컨벤션 자동 준수
+- 반복 작업 자동화
+
+**3. 완전한 추적성**
+- Jira 티켓 ↔ Git 커밋 ↔ 작업 이력 연결
+- 언제든 "왜 이렇게 만들었지?" 파악 가능
+
+**4. 팀 협업 최적화**
+- 일관된 코드 품질
+- 자동화된 문서 동기화
+- 명확한 작업 프로세스
+
+---
+
 ## 🛠 기술 스택
 
 - **Java**: 21
@@ -248,7 +479,7 @@ MIT License - 자유롭게 사용, 수정, 배포 가능합니다.
 
 ## 📮 문의
 
-- GitHub Issues: [vcsop-java-template/issues](https://github.com/YOUR_USERNAME/vcsop-java-template/issues)
+- GitHub Issues: [vcsop-java-template/issues](https://github.com/bighaeil/vcsop-java-template/issues)
 - 블로그: (추후 추가)
 
 ---
